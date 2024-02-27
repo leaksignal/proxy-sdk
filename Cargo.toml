@@ -1,0 +1,29 @@
+[package]
+name = "proxy-sdk"
+version = "1.0.0"
+edition = "2021"
+authors = ["Protryon <max.bruce12@gmail.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/leaksignal/proxy-sdk"
+description = "Write extensions for Proxy-WASM for WASM or Native environments"
+keywords = [ "leaksignal", "proxy", "wasm", "sdk" ]
+readme = "./README.md"
+homepage = "https://www.leaksignal.com/"
+
+[dependencies]
+log = { version = "0.4", default-features = false }
+derive_builder = { version = "0.12.0", default-features = false }
+prost = { version = "0.11", default-features = false, features = ["std"] }
+prost-types = { version = "0.11", default-features = false }
+once_cell = { version = "1.17" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.2", features = ["custom"] }
+wasi = { version = "0.11.0", default-features = false }
+
+[build-dependencies]
+prost-build = "0.11"
+
+[features]
+default = []
+stream-metadata = []
