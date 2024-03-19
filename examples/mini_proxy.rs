@@ -74,11 +74,11 @@ impl HttpContext for ExampleContext {
 }
 
 #[derive(Default)]
-pub struct EnvoyRootContext {}
+pub struct ExampleRootContext {}
 
-impl BaseContext for EnvoyRootContext {}
+impl BaseContext for ExampleRootContext {}
 
-impl RootContext for EnvoyRootContext {
+impl RootContext for ExampleRootContext {
     fn create_context(&mut self) -> Context {
         Context::Http(Box::<ExampleContext>::default())
     }
@@ -87,7 +87,7 @@ impl RootContext for EnvoyRootContext {
 fn init() {
     proxy_sdk::reset();
     proxy_sdk::set_log_level(Level::Trace);
-    proxy_sdk::set_root_context_factory(EnvoyRootContext::default);
+    proxy_sdk::set_root_context_factory(ExampleRootContext::default);
 }
 
 #[no_mangle]
