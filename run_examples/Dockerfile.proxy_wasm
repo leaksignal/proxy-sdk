@@ -1,0 +1,3 @@
+FROM envoyproxy/envoy-dev:0b1c5aca39b8c2320501ce4b94fe34f2ad5808aa
+COPY config /config
+ENTRYPOINT [ "/usr/local/bin/envoy", "-c", "/config/envoy_wasm.yaml" ]

@@ -1,0 +1,2 @@
+FROM bitnami/apache:2.4.55-debian-11-r2
+COPY app/ /app/

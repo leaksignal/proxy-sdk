@@ -6,9 +6,13 @@ authors = ["Protryon <max.bruce12@gmail.com>"]
 license = "Apache-2.0"
 repository = "https://github.com/leaksignal/proxy-sdk"
 description = "Write extensions for Proxy-WASM for WASM or Native environments"
-keywords = [ "leaksignal", "proxy", "wasm", "sdk" ]
+keywords = ["leaksignal", "proxy", "wasm", "sdk"]
 readme = "./README.md"
 homepage = "https://www.leaksignal.com/"
+
+[[example]]
+name = "mini_proxy"
+crate-type = ["cdylib"]
 
 [dependencies]
 log = { version = "0.4", default-features = false }
@@ -23,6 +27,9 @@ wasi = { version = "0.11.0", default-features = false }
 
 [build-dependencies]
 prost-build = "0.11"
+
+[dev-dependencies]
+dlmalloc = { version = "0.2.6", features = ["global"] }
 
 [features]
 default = []

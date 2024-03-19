@@ -1,0 +1,3 @@
+FROM leaksignal/istio-proxy:1.18.0
+COPY config /config
+ENTRYPOINT [ "/usr/local/bin/envoy", "-c", "/config/envoy_native.yaml" ]
