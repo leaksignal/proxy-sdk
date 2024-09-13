@@ -77,6 +77,18 @@ pub trait StreamDataControl {
     fn clear(&self) {
         self.replace(&[]);
     }
+
+    /// Writes data directly upstream, should be called from downstream context.
+    #[cfg(not(target_arch = "wasm32"))]
+    fn write_upstream(&self, data: &[u8]) {
+        log_concern("write_upstream", hostcalls::write_upstream(data));
+    }
+
+    /// Writes data directly downstream, should be called from upstream context.
+    #[cfg(not(target_arch = "wasm32"))]
+    fn write_downstream(&self, data: &[u8]) {
+        log_concern("write_downstream", hostcalls::write_downstream(data));
+    }
 }
 
 #[repr(usize)]

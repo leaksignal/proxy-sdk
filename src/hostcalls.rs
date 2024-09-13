@@ -848,6 +848,35 @@ pub fn call_foreign_function(
     }
 }
 
+#[cfg(not(target_arch = "wasm32"))]
+lazy_static::lazy_static! {
+    static ref LIBRARY: libloading::os::unix::Library = libloading::os::unix::Library::this();
+    static ref PROXY_WRITE_UPSTREAM: Option<libloading::os::unix::Symbol<unsafe extern "C" fn(*const u8, usize) -> Status>> = unsafe { LIBRARY.get(b"proxy_write_upstream").ok() };
+    static ref PROXY_WRITE_DOWNSTREAM: Option<libloading::os::unix::Symbol<unsafe extern "C" fn(*const u8, usize) -> Status>> = unsafe { LIBRARY.get(b"proxy_write_downstream").ok() };
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn write_upstream(buffer: &[u8]) -> Result<(), Status> {
+    let Some(proxy_write_upstream) = &*PROXY_WRITE_UPSTREAM else {
+        return Err(Status::InternalFailure);
+    };
+    match unsafe { proxy_write_upstream(buffer.as_ptr(), buffer.len()) } {
+        Status::Ok => Ok(()),
+        e => Err(e),
+    }
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub fn write_downstream(buffer: &[u8]) -> Result<(), Status> {
+    let Some(proxy_write_downstream) = &*PROXY_WRITE_DOWNSTREAM else {
+        return Err(Status::InternalFailure);
+    };
+    match unsafe { proxy_write_downstream(buffer.as_ptr(), buffer.len()) } {
+        Status::Ok => Ok(()),
+        e => Err(e),
+    }
+}
+
 pub fn done() -> Result<(), Status> {
     unsafe {
         match proxy_done() {
