@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy_wasm
+    depends_on:
+      - web_service
+    networks:
+      - example
+    ports:
+      - 8000:8000
+      - 9901:9901
+  web_service:
+    build:
+      context: .
+      dockerfile: Dockerfile.web_service
+    ports:
+      - 8080:8080
+    networks:
+      - example
+networks:
+  example:
+    name: example
+    driver: bridge
