@@ -85,7 +85,7 @@ impl RequestAttributes {
 
     /// Request method e.g. “GET”
     pub fn method(&self) -> Option<String> {
-        get_property_string("request.scheme")
+        get_property_string("request.method")
     }
 
     /// All request headers indexed by the lower-cased header name
